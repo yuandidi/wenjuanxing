@@ -1,10 +1,8 @@
+import { RouterProvider } from 'react-router-dom'
+import routerConfig from './router'
+
 function App() {
-  return (
-    <div id="startMenu">
-      <h1>Start Menu</h1>
-      <button id="startGame">Start Game</button>
-    </div>
-  )
+  return <RouterProvider router={routerConfig}></RouterProvider>
 }
 
 export default App

@@ -3,8 +3,8 @@ module.exports = {
   arrowParens: 'avoid',
   //括号内部不要出现空格
   bracketSpacing: true,
-  //行结束符使用 Unix 格式
-  endOfLine: 'lf',
+  //行结束符使用 window 格式
+  endOfLine: 'crlf',
   jsxBracketSameLine: false,
   //行宽
   printWidth: 100,
