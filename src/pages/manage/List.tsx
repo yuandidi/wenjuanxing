@@ -1,7 +1,11 @@
 import { FC, useState } from 'react'
 import { useTitle } from 'ahooks'
+import { Typography } from 'antd'
 import QuestionCard from '@/components/QuestionCard'
-import styles from './List.module.scss'
+import styles from './common.module.scss'
+
+const { Title } = Typography
+
 const rawQuestionList = [
   {
     _id: 1,
@@ -35,18 +39,19 @@ const List: FC = () => {
     <>
       <div className={styles.header}>
         <div className={styles.left}>
-          <h3>我的问卷</h3>
+          <Title level={3}>我的问卷</Title>
         </div>
         <div className={styles.right}>搜索</div>
       </div>
       <div className={styles.content}>
-        {questionList.map(q => {
-          const { _id } = q
+        {questionList.length > 0 &&
+          questionList.map(q => {
+            const { _id } = q
 
-          return <QuestionCard key={_id} {...q} />
-        })}
+            return <QuestionCard key={_id} {...q} />
+          })}
       </div>
-      <div className={styles.footer}></div>
+      <div className={styles.footer}>loadMore 上划加载更多...</div>
     </>
   )
 }
