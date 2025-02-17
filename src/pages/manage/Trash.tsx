@@ -1,43 +1,19 @@
 import { FC, useState } from 'react'
 import { useTitle } from 'ahooks'
 import ListSearch from '@/components/ListSearch'
-import { Typography, Empty, Table, Tag, Button, Space, Modal } from 'antd'
+import { Typography, Empty, Table, Tag, Button, Space, Modal, Spin } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
+import useLoadQuestionListData from '@/hooks/useLoadQuestionListData'
 import styles from './common.module.scss'
 
 const { Title } = Typography
 const { confirm } = Modal
 
-const rawQuestionList = [
-  {
-    _id: 1,
-    title: 'title1',
-    isPublished: true,
-    isStarred: true,
-    answerCount: 5,
-    createdAt: '3月10日',
-  },
-  {
-    _id: 2,
-    title: 'title2',
-    isPublished: true,
-    isStarred: true,
-    answerCount: 5,
-    createdAt: '3月11日',
-  },
-  {
-    _id: 3,
-    title: 'title3',
-    isPublished: true,
-    isStarred: true,
-    answerCount: 5,
-    createdAt: '3月12日',
-  },
-]
-
 const Trash: FC = () => {
   useTitle('小慕问卷 - 回收站')
-  const [questionList] = useState(rawQuestionList)
+  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true })
+  const { list = [] } = data
+
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   function del() {
     confirm({
@@ -81,10 +57,11 @@ const Trash: FC = () => {
         </Space>
       </div>
       <Table
-        dataSource={questionList}
+        dataSource={list}
         columns={tableColumns}
         pagination={false}
-        rowKey={q => q._id}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rowKey={(q: any) => q._id}
         rowSelection={{
           type: 'checkbox',
           onChange: selectedRowKeys => {
@@ -105,8 +82,13 @@ const Trash: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {questionList.length === 0 && <Empty description="暂无数据" />}
-        {questionList.length > 0 && TableElement}
+        {loading && (
+          <div style={{ textAlign: 'center' }}>
+            <Spin />
+          </div>
+        )}
+        {!loading && list.length === 0 && <Empty description="暂无数据" />}
+        {list.length > 0 && TableElement}
       </div>
     </>
   )

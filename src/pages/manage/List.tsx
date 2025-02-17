@@ -1,41 +1,19 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { useTitle } from 'ahooks'
-import { Typography } from 'antd'
+import { Typography, Spin } from 'antd'
 import ListSearch from '@/components/ListSearch'
 import QuestionCard from '@/components/QuestionCard'
 import styles from './common.module.scss'
+import useLoadQuestionListData from '@/hooks/useLoadQuestionListData'
 
 const { Title } = Typography
 
-const rawQuestionList = [
-  {
-    _id: 1,
-    title: 'title1',
-    isPublished: true,
-    isStarred: true,
-    answerCount: 5,
-    createdAt: '3月10日',
-  },
-  {
-    _id: 2,
-    title: 'title2',
-    isPublished: false,
-    isStarred: false,
-    answerCount: 5,
-    createdAt: '3月11日',
-  },
-  {
-    _id: 3,
-    title: 'title3',
-    isPublished: false,
-    isStarred: false,
-    answerCount: 5,
-    createdAt: '3月12日',
-  },
-]
 const List: FC = () => {
   useTitle('小迪问卷-我的问卷')
-  const [questionList] = useState(rawQuestionList)
+
+  const { data = {}, loading } = useLoadQuestionListData({})
+  const { list = [] } = data
+
   return (
     <>
       <div className={styles.header}>
@@ -47,8 +25,15 @@ const List: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {questionList.length > 0 &&
-          questionList.map(q => {
+        {loading && (
+          <div style={{ textAlign: 'center' }}>
+            <Spin />
+          </div>
+        )}
+        {!loading &&
+          list.length > 0 &&
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          list.map((q: any) => {
             const { _id } = q
 
             return <QuestionCard key={_id} {...q} />

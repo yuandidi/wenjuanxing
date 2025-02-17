@@ -1,13 +1,18 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Typography } from 'antd'
 import { MANAGE_INDEX_PATHNAME } from '@/router'
 import styles from './Home.module.scss'
-
+import axios from 'axios'
 const { Title, Paragraph } = Typography
 
 const Home: FC = () => {
   const nav = useNavigate()
+  useEffect(() => {
+    axios.post('/api/question').then(res => {
+      console.log(res)
+    })
+  }, [])
 
   return (
     <div className={styles.container}>
