@@ -5,14 +5,15 @@ import { Typography, Empty, Table, Tag, Button, Space, Modal, Spin } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import useLoadQuestionListData from '@/hooks/useLoadQuestionListData'
 import styles from './common.module.scss'
+import ListPage from '@/components/ListPage'
 
 const { Title } = Typography
 const { confirm } = Modal
 
 const Trash: FC = () => {
-  useTitle('小慕问卷 - 回收站')
+  useTitle('小迪问卷-回收站')
   const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true })
-  const { list = [] } = data
+  const { list = [], total = 0 } = data
 
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   function del() {
@@ -89,6 +90,9 @@ const Trash: FC = () => {
         )}
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
         {list.length > 0 && TableElement}
+      </div>
+      <div className={styles.footer}>
+        <ListPage total={total} />
       </div>
     </>
   )
