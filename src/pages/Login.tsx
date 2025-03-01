@@ -48,7 +48,6 @@ const Login: FC = () => {
       onSuccess(result) {
         const { token = '' } = result
         setToken(token) //存储token
-
         message.success('登陆成功')
         nav(MANAGE_INDEX_PATHNAME) //导航到我的问卷
       },
@@ -58,7 +57,7 @@ const Login: FC = () => {
   const onFinish = (values: any) => {
     const { username, password, remember } = values || {}
     run(username, password)
-
+    //dispatch(loginReducer({ username, nickname: username })) // 更新 Redux 状态
     if (remember) {
       rememberUser(username, password)
     } else {
