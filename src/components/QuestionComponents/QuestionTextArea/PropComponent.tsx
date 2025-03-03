@@ -1,8 +1,8 @@
 import { FC, useEffect } from 'react'
 import { Form, Input } from 'antd'
-import { QuestionInputPropsType } from './interface'
+import { QuestionTextAreaPropsType } from './interface'
 
-const PropComponent: FC<QuestionInputPropsType> = (props: QuestionInputPropsType) => {
+const PropComponent: FC<QuestionTextAreaPropsType> = (props: QuestionTextAreaPropsType) => {
   const { title, placeholder, onChange, disabled } = props
   const [form] = Form.useForm()
 

@@ -32,7 +32,7 @@ function useLoadQuestionData() {
       selectedId = componentList[0].fe_id
     }
     // 把components 存储到 Redux store中
-    dispatch(resetComponents({ componentList, selectedId }))
+    dispatch(resetComponents({ componentList, selectedId, copiedComponent: null }))
   }, [data])
 
   //判断id变化 执行ajax加载数据

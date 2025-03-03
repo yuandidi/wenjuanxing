@@ -5,6 +5,7 @@ import styles from './index.module.scss'
 import EditCanvas from './EditCanvas'
 import LeftPanel from './leftPanel'
 import RightPanel from './RightPanel'
+import EditHeader from './EditHeader'
 import { changeSelectedId } from '@/store/componentsReducer'
 
 const Edit: FC = () => {
@@ -16,7 +17,9 @@ const Edit: FC = () => {
   }
   return (
     <div className={styles.container}>
-      <div style={{ backgroundColor: '#fff', height: '50px' }}>Header</div>
+      <div style={{ backgroundColor: '#fff', height: '50px' }}>
+        <EditHeader />
+      </div>
       <div className={styles['content-wrapper']}>
         <div className={styles.content}>
           <div className={styles.left}>
