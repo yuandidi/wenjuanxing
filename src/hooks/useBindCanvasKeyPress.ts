@@ -5,6 +5,7 @@ import {
   selectNextComponent,
   selectPrevComponent,
 } from '@/store/componentsReducer'
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import { useKeyPress } from 'ahooks'
 import { useDispatch } from 'react-redux'
 
@@ -54,6 +55,28 @@ function useBindCanvasKeyPress() {
     if (!isActiveElementValid()) return
     dispatch(selectNextComponent())
   })
+
+  //撤销
+  useKeyPress(
+    ['ctrl.z', 'meta.z'],
+    () => {
+      dispatch(UndoActionCreators.undo())
+    },
+    {
+      exactMatch: true,
+    }
+  )
+
+  //重做
+  useKeyPress(
+    ['ctrl.shift.z', 'meta.shift.z'],
+    () => {
+      dispatch(UndoActionCreators.redo())
+    },
+    {
+      exactMatch: true,
+    }
+  )
 }
 
 export default useBindCanvasKeyPress
