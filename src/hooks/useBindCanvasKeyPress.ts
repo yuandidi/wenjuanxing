@@ -17,6 +17,7 @@ function isActiveElementValid() {
   const activeElem = document.activeElement
 
   if (activeElem === document.body) return true // 光标没有 focus 到Input上
+  if (activeElem?.matches('div[role]')) return true
 
   return false
 }

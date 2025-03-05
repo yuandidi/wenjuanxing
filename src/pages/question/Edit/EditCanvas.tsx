@@ -3,10 +3,12 @@ import styles from './EditCanvas.module.scss'
 import classNames from 'classnames'
 import { Spin } from 'antd'
 import useGetComponentInfo from '@/hooks/useGetComponentsInfo'
-import { changeSelectedId, ComponentInfoType } from '@/store/componentsReducer'
+import { changeSelectedId, ComponentInfoType, moveComponent } from '@/store/componentsReducer'
 import { getComponentConfByType } from '@/components/QuestionComponents'
 import { useDispatch } from 'react-redux'
 import useBindCanvasKeyPress from '@/hooks/useBindCanvasKeyPress'
+import SortableContainer from '@/components/DragSortable/SortableContainer'
+import SortableItem from '@/components/DragSortable/SortableItem'
 
 type PropsType = {
   loading: boolean
@@ -26,6 +28,9 @@ function genComponent(componentInfo: ComponentInfoType) {
 const EditCanvas: FC<PropsType> = ({ loading }) => {
   const { componentList, selectedId } = useGetComponentInfo()
   const dispatch = useDispatch()
+  const componentListWithId = componentList.map(c => {
+    return { ...c, id: c.fe_id }
+  })
 
   //选中组件
   function handleClick(e: React.MouseEvent, id: string) {
@@ -43,40 +48,39 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
       </div>
     )
   }
+
+  function handleDragEnd(oldIndex: number, newIndex: number) {
+    dispatch(moveComponent({ oldIndex, newIndex }))
+  }
+
   return (
-    <div className={styles.canvas}>
-      {componentList
-        .filter(c => !c.isHidden)
-        .map(c => {
-          const { fe_id, isLocked } = c
+    <SortableContainer items={componentListWithId} onDragEnd={handleDragEnd}>
+      <div className={styles.canvas}>
+        {componentList
+          .filter(c => !c.isHidden)
+          .map(c => {
+            const { fe_id, isLocked } = c
 
-          //拼接 class name
-          const wrapperDefaultClassName = styles['component-wrapper']
-          const selectedClassName = styles.selected
-          const lockedClassName = styles.locked
-          const wrapperClassName = classNames({
-            [wrapperDefaultClassName]: true,
-            [selectedClassName]: fe_id === selectedId,
-            [lockedClassName]: isLocked,
-          })
+            //拼接 class name
+            const wrapperDefaultClassName = styles['component-wrapper']
+            const selectedClassName = styles.selected
+            const lockedClassName = styles.locked
+            const wrapperClassName = classNames({
+              [wrapperDefaultClassName]: true,
+              [selectedClassName]: fe_id === selectedId,
+              [lockedClassName]: isLocked,
+            })
 
-          return (
-            <div key={fe_id} className={wrapperClassName} onClick={e => handleClick(e, fe_id)}>
-              <div className={styles.component}>{genComponent(c)}</div>
-            </div>
-          )
-        })}
-      {/* <div className={styles['component-wrapper']}>
-        <div className={styles.component}>
-          <QuestionTitle />
-        </div>
+            return (
+              <SortableItem key={fe_id} id={fe_id}>
+                <div className={wrapperClassName} onClick={e => handleClick(e, fe_id)}>
+                  <div className={styles.component}>{genComponent(c)}</div>
+                </div>
+              </SortableItem>
+            )
+          })}
       </div>
-      <div className={styles['component-wrapper']}>
-        <div className={styles.component}>
-          <QuestionInput />
-        </div>
-      </div> */}
-    </div>
+    </SortableContainer>
   )
 }
 
