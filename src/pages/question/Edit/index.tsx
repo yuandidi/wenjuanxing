@@ -7,6 +7,8 @@ import LeftPanel from './leftPanel'
 import RightPanel from './RightPanel'
 import EditHeader from './EditHeader'
 import { changeSelectedId } from '@/store/componentsReducer'
+import { useTitle } from 'ahooks'
+import useGetPageInfo from '@/hooks/useGetPageInfo'
 
 const Edit: FC = () => {
   const { loading } = useLoadQuestionData()
@@ -15,6 +17,10 @@ const Edit: FC = () => {
   function clearSelectedId() {
     dispatch(changeSelectedId(''))
   }
+
+  const { title } = useGetPageInfo()
+
+  useTitle(`问卷编辑 - ${title}`)
   return (
     <div className={styles.container}>
       <div style={{ backgroundColor: '#fff', height: '50px' }}>
