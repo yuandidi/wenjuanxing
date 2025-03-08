@@ -8,7 +8,7 @@ import styles from './index.module.scss'
 import StatHeader from './StatHeader'
 import ComponentList from './ComponentList'
 import PageStat from './PageStat'
-
+import ChartStat from './ChartStat'
 const Stat: FC = () => {
   const nav = useNavigate()
 
@@ -17,7 +17,7 @@ const Stat: FC = () => {
 
   // 状态提升 selectedId type
   const [selectedComponentId, setSelectedComponentId] = useState('')
-  const [, setSelectedComponentType] = useState('')
+  const [selectedComponentType, setSelectedComponentType] = useState('')
 
   useTitle(`问卷统计 - ${title}`)
 
@@ -60,7 +60,12 @@ const Stat: FC = () => {
             setSelectedComponentType={setSelectedComponentType}
           />
         </div>
-        <div className={styles.right}>右</div>
+        <div className={styles.right}>
+          <ChartStat
+            selectedComponentId={selectedComponentId}
+            selectedComponentType={selectedComponentType}
+          />
+        </div>
       </>
     )
   }
