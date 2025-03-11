@@ -1,23 +1,16 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
-import vitePluginImp from 'vite-plugin-imp'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    visualizer({ open: true }),
-    vitePluginImp({
-      libList: [
-        {
-          libName: 'antd',
-          style: name => `antd/es/${name}/style`,
-        },
-      ],
-    }),
-  ],
+  plugins: [react(), visualizer({ open: true })],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -57,6 +50,9 @@ export default defineConfig({
               return 'dnd-kit-ventor'
             }
 
+            if (id.includes('/node_modules/d3')) {
+              return 'd3-ventor'
+            }
             return 'ventors'
           }
         },
