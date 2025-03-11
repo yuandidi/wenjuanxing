@@ -7,7 +7,7 @@ function format(n: number) {
   return (n * 100).toFixed(2)
 }
 
-const PieDemo: FC<QuestionRadioStatPropsType> = ({ stat = [] }) => {
+const StatComponent: FC<QuestionRadioStatPropsType> = ({ stat = [] }) => {
   const sum = useMemo(() => {
     let s = 0
     stat.forEach(i => (s += i.count))
@@ -27,7 +27,7 @@ const PieDemo: FC<QuestionRadioStatPropsType> = ({ stat = [] }) => {
             fill="#8884d8"
             label={i => `${i.name}:${format(i.count / sum)}%`}
           >
-            {stat.map((entry, index) => (
+            {stat.map((_entry, index) => (
               <Cell key={`cell-${index}`} fill={STAT_COLORS[index]} />
             ))}
           </Pie>
@@ -38,4 +38,4 @@ const PieDemo: FC<QuestionRadioStatPropsType> = ({ stat = [] }) => {
   )
 }
 
-export default PieDemo
+export default StatComponent

@@ -1,6 +1,6 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
-import { cloneDeep } from 'lodash-es'
+import cloneDeep from 'lodash-es/cloneDeep'
 import { arrayMove } from '@dnd-kit/sortable'
 import { ComponentPropsType } from '@/components/QuestionComponents'
 import { getNextSelectedId, insertNewComponent } from './utils'
@@ -31,7 +31,7 @@ export const componentsSlice = createSlice({
   initialState: INIT_STATE,
   reducers: {
     //重置所有组件
-    resetComponents: (state: ComponentsStateType, action: PayloadAction<ComponentsStateType>) => {
+    resetComponents: (_state: ComponentsStateType, action: PayloadAction<ComponentsStateType>) => {
       return action.payload
     },
 

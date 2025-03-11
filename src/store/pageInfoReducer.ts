@@ -21,7 +21,7 @@ export const pageInfoSlice = createSlice({
   name: 'pageInfo',
   initialState: INIT_STATE,
   reducers: {
-    resetPageInfo: (state: PageInfoType, action: PayloadAction<PageInfoType>) => {
+    resetPageInfo: (_state: PageInfoType, action: PayloadAction<PageInfoType>) => {
       return action.payload
     },
     changePageTitle: produce((draft: PageInfoType, action: PayloadAction<string>) => {

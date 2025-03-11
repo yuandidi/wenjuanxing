@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { Typography } from 'antd'
 import { componentConfGroup, ComponentConfType } from '@/components/QuestionComponents'
 import styles from './Component.lib.module.scss'
@@ -11,7 +11,8 @@ const { Title } = Typography
 function genComponent(c: ComponentConfType, dispatch: Dispatch<UnknownAction>) {
   const { title, type, Component, defaultProps } = c
 
-  function handleClick() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const handleCallback = useCallback(() => {
     dispatch(
       addComponent({
         fe_id: nanoid(),
@@ -20,10 +21,12 @@ function genComponent(c: ComponentConfType, dispatch: Dispatch<UnknownAction>) {
         props: defaultProps,
       })
     )
-  }
+  }, [])
+
+  //function handleClick() {}
 
   return (
-    <div className={styles.wrapper} onClick={handleClick}>
+    <div className={styles.wrapper} onClick={handleCallback}>
       <div className={styles.component}>
         <Component />
       </div>
